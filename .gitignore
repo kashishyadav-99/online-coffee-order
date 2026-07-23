@@ -1,0 +1,8 @@
+node_modules/
+backend/node_modules/
+.env
+backend/.env
+package.json
+backend/package.json
+package-lock.json
+backend/package-lock.json
