@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Menu | Artisan Coffee</title>
+  <meta name="description"
+    content="Explore our premium handcrafted coffee menu featuring hot coffee, cold coffee, espresso, desserts, and more.">
+  <link rel="stylesheet" href="modern-menu.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="logo">COFFEE.</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="modern-menu.html" class="active">Menu</a></li>
+      <li><a href="about (1).html">About</a></li>
+
+      <li>
+        <button id="cart-toggle-btn" class="cart-toggle">
+          Cart <span id="cart-badge" class="cart-badge">0</span>
+        </button>
+      </li>
+      <li class="dropdown-container">
+        <button id="three-dot-menu-btn" class="three-dot-btn">⋮</button>
+        <div id="three-dot-dropdown" class="three-dot-dropdown hidden">
+          <a href="index.html">Home </a>
+          <a href="modern-menu.html">Menu </a>
+          <a href="about (1).html">About</a>
+          <a href="contact (1).html">Contact</a>
+          <a href="#" id="dropdown-order-details">Order Details</a>
+          <a href="#" id="dropdown-cancel-order">Cancel Order</a>
+          <a href="#" id="dropdown-complete-order">Complete Order</a>
+          <a href="#" id="dropdown-cart">Cart</a>
+          <a href="#" id="dropdown-payment">Payment</a>
+          <a href="#" id="dropdown-setting">Setting</a>
+          <a href="#" id="dropdown-help-center">Help center</a>
+          <a href="#" id="dropdown-logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="menu-hero">
+    <div class="hero-content">
+      <h1>Every Cup We Pour</h1>
+      <p>Experience the finest selection of handcrafted beverages and decadent desserts, made with passion and
+        precision.</p>
+    </div>
+  </section>
+
+  <!-- Main Menu Container -->
+  <div class="menu-container">
+
+    <!-- Left Sidebar: Filters -->
+    <aside class="category-sidebar">
+      <h3>Categories</h3>
+      <div class="filter-buttons" id="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="hot-coffee">Hot Coffee</button>
+        <button class="filter-btn" data-filter="cold-coffee">Cold Coffee</button>
+        <button class="filter-btn" data-filter="espresso">Espresso</button>
+        <button class="filter-btn" data-filter="cappuccino">Cappuccino</button>
+        <button class="filter-btn" data-filter="latte">Latte</button>
+        <button class="filter-btn" data-filter="mocha">Mocha</button>
+        <button class="filter-btn" data-filter="americano">Americano</button>
+        <button class="filter-btn" data-filter="flat-white">Flat White</button>
+        <button class="filter-btn" data-filter="macchiato">Macchiato</button>
+        <button class="filter-btn" data-filter="frappuccino">Frappuccino</button>
+        <button class="filter-btn" data-filter="tea">Tea</button>
+        <button class="filter-btn" data-filter="desserts">Desserts</button>
+      </div>
+    </aside>
+
+    <!-- Right Area: Content -->
+    <main class="main-content">
+
+      <!-- Artisan Coffee Section (Premium items) -->
+      <section class="artisan-section">
+        <div class="artisan-header">
+          <h2>Artisan Coffee</h2>
+          <p>Crafted with Passion</p>
+        </div>
+        <div class="artisan-grid">
+
+          <div class="artisan-card">
+            <div class="artisan-img-wrapper">
+              <img src="images/artisan_latte_1784454812190.png" alt="Signature Latte Art">
+            </div>
+            <div class="artisan-info">
+              <div class="artisan-title">
+                <h4>Signature Swan Latte</h4>
+                <span class="rating">★ 4.9</span>
+              </div>
+              <p class="artisan-desc">Double ristretto with perfectly micro-foamed milk, poured with our signature swan
+                art.</p>
+              <div class="artisan-footer">
+                <span class="price">₹350</span>
+                <div class="action-buttons">
+                  <button class="add-btn">Add to Cart</button>
+                  <button class="buy-now-btn">Buy Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="artisan-card">
+            <div class="artisan-img-wrapper">
+              <img src="images/iced_macchiato_1784454827251.png" alt="Iced Caramel Macchiato">
+            </div>
+            <div class="artisan-info">
+              <div class="artisan-title">
+                <h4>Golden Macchiato</h4>
+                <span class="rating">★ 4.8</span>
+              </div>
+              <p class="artisan-desc">Iced caramel macchiato with premium vanilla syrup, espresso layers, and a rich
+                caramel drizzle.</p>
+              <div class="artisan-footer">
+                <span class="price">₹280</span>
+                <div class="action-buttons">
+                  <button class="add-btn">Add to Cart</button>
+                  <button class="buy-now-btn">Buy Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Menu Categories Sections Container -->
+      <div id="menu-sections-container">
+        <!-- Sections will be dynamically injected by modern-menu.js -->
+      </div>
+
+    </main>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Artisan Coffee Shop. All rights reserved.</p>
+  </footer>
+
+  <!-- Image Details Modal -->
+  <div id="image-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="modal-body">
+        <img id="modal-img" src="" alt="Coffee Details">
+        <div class="modal-info">
+          <h3 id="modal-title">Coffee Name</h3>
+          <p id="modal-desc">Ingredients and details...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-overlay" class="cart-overlay hidden"></div>
+  <div id="cart-drawer" class="cart-drawer hidden">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button id="close-cart-btn" class="close-cart">&times;</button>
+    </div>
+    <div id="cart-items-container" class="cart-items">
+      <!-- Cart items injected here -->
+      <p class="empty-cart-msg">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total-price">₹0</span>
+      </div>
+      <button id="payment-btn" class="btn-payment">Payment Now</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkout-overlay" class="modal-overlay hidden">
+    <div id="checkout-modal" class="modal-content checkout-modal">
+      <button class="modal-close" id="close-checkout-btn">&times;</button>
+
+      <!-- View 0: Register Details -->
+      <div id="checkout-view-0" class="checkout-view hidden">
+        <h3>Register Details</h3>
+        <p class="checkout-subtitle">Please enter your details to proceed.</p>
+        <div class="checkout-form">
+          <input type="text" id="checkout-name" class="checkout-input" placeholder="Full Name" required>
+          <input type="email" id="checkout-email" class="checkout-input" placeholder="Email Address" required>
+          <input type="tel" id="checkout-mobile" class="checkout-input" placeholder="Mobile Number" required>
+          <input type="text" id="checkout-address" class="checkout-input" placeholder="Delivery Address" required>
+          <input type="text" id="checkout-pincode" class="checkout-input" placeholder="Pincode" required>
+          <input type="number" id="checkout-qty" class="checkout-input hidden" placeholder="Quantity" min="1" value="1">
+
+          <div class="action-buttons mt-20" style="justify-content: space-between;">
+            <button id="btn-register-cancel" class="btn-cancel" style="flex: 1;">Cancel</button>
+            <button id="btn-register-next" class="btn-payment" style="flex: 1; margin-top: 0;">Continue to
+              Payment</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View 1: Payment Method -->
+      <div id="checkout-view-1" class="checkout-view hidden">
+        <h3>Select Payment Method</h3>
+        <p class="checkout-subtitle">How would you like to pay?</p>
+        <div class="checkout-options">
+          <button id="btn-cod" class="checkout-option-btn">Cash on Delivery</button>
+          <button id="btn-online" class="checkout-option-btn outline">Online Payment</button>
+        </div>
+      </div>
+
+      <!-- View 2: OTP Verification -->
+      <div id="checkout-view-2" class="checkout-view hidden">
+        <h3>Verify OTP</h3>
+        <p class="checkout-subtitle">Enter the OTP sent to your email.</p>
+        <div class="checkout-form">
+          <input type="text" id="checkout-otp" class="checkout-input text-center" placeholder="• • • • • •"
+            maxlength="6" required>
+          <button id="btn-confirm-order" class="btn-payment mt-20">Confirm Order</button>
+        </div>
+      </div>
+
+      <!-- View 3: Success Screen -->
+      <div id="checkout-view-3" class="checkout-view hidden" style="padding: 20px;">
+        <div class="success-logo-container">
+          <!-- <img src="images/coffee_hero_1784454797890.png" alt="Success Logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); animation: pulse-success 2s infinite alternate; box-shadow: 0 0 20px rgba(205, 164, 94, 0.5);"> -->
+        </div>
+        <h3 id="success-greeting-name"
+          style="color: var(--primary-color); text-align: center; margin-bottom: 5px; font-size: 1.5rem;"></h3>
+        <h2 style="color: var(--primary-color); margin-bottom: 5px; text-align: center;">Order Confirmed!</h2>
+        <p class="checkout-subtitle" style="margin-bottom: 20px; text-align: center;">Your delicious artisan coffee is
+          being prepared.</p>
+
+        <div class="order-summary-box">
+          <div class="summary-row"><span>Name:</span> <span id="summary-name"></span></div>
+          <div class="summary-row"><span>Mobile:</span> <span id="summary-mobile"></span></div>
+          <div class="summary-row"><span>Email:</span> <span id="summary-email"></span></div>
+          <div class="summary-row"><span>Address:</span> <span id="summary-address"></span></div>
+          <div class="summary-row"><span>Pincode:</span> <span id="summary-pincode"></span></div>
+          <div class="summary-row"><span>Quantity:</span> <span id="summary-qty"></span></div>
+          <div class="summary-row"><span>Payment Method:</span> <span id="summary-method"></span></div>
+          <div class="summary-row"><span>Total Price:</span> <span id="summary-price"></span></div>
+          <div class="summary-row"><span>Date & Time:</span> <span id="summary-date"></span></div>
+        </div>
+
+        <button id="btn-return-menu" class="btn-payment mt-20">Return to Menu Page</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Order Status Modal -->
+  <div id="status-overlay" class="cart-overlay hidden">
+    <div class="checkout-modal" style="max-width: 450px;">
+      <button class="close-checkout" id="close-status-btn">&times;</button>
+
+      <!-- Status View 0: Input Form -->
+      <div id="status-view-0" class="checkout-view">
+        <h2 style="color: var(--primary-color); margin-bottom: 5px;">Check Order Details</h2>
+        <p class="checkout-subtitle" style="margin-bottom: 20px;">Enter your details to find your order.</p>
+        <div class="checkout-form">
+          <input type="text" id="status-name" class="checkout-input" placeholder="Full Name" required>
+          <input type="tel" id="status-mobile" class="checkout-input" placeholder="Mobile Number" required>
+          <button id="btn-check-status" class="btn-payment mt-20">Find Order</button>
+          <p id="status-error"
+            style="color: var(--danger-color); margin-top: 10px; display: none; text-align: center; font-size: 0.9rem;">
+          </p>
+        </div>
+      </div>
+
+      <!-- Status View 1: Result Details (Similar to View 3) -->
+      <div id="status-view-1" class="checkout-view hidden" style="padding: 10px;">
+        <div class="success-logo-container">
+          <img src="images/coffee_hero_1784454797890.png" alt="Order Logo"
+            style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); animation: pulse-success 2s infinite alternate; box-shadow: 0 0 20px rgba(205, 164, 94, 0.5);">
+        </div>
+        <h2 style="color: var(--primary-color); margin-bottom: 15px; text-align: center;">Order Found!</h2>
+
+        <div class="order-summary-box">
+          <div class="summary-row"><span>Name:</span> <span id="res-name"></span></div>
+          <div class="summary-row"><span>Mobile:</span> <span id="res-mobile"></span></div>
+          <div class="summary-row"><span>Email:</span> <span id="res-email"></span></div>
+          <div class="summary-row"><span>Address:</span> <span id="res-address"></span></div>
+          <div class="summary-row"><span>Pincode:</span> <span id="res-pincode"></span></div>
+          <div class="summary-row"><span>Quantity:</span> <span id="res-qty"></span></div>
+          <div class="summary-row"><span>Total Price:</span> <span id="res-price"></span></div>
+          <div class="summary-row"><span>Date & Time:</span> <span id="res-date"></span></div>
+        </div>
+
+        <button id="btn-status-done" class="btn-payment mt-20">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="modern-menu.js?v=2"></script>
+</body>
+
+</html>
