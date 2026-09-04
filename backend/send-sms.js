@@ -24,6 +24,7 @@ const fs = require('fs');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '../dist')));
 app.use(express.static(path.join(__dirname, '../')));
 
 // Initialize Twilio client conditionally
