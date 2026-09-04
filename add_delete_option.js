@@ -77,7 +77,8 @@ const newJsLoop = `data.orders.forEach((order, index) => {
               if(confirm('Are you sure you want to delete this order?')) {
                 const idx = e.target.dataset.index;
                 try {
-                  const dRes = await fetch('http://localhost:3001/api/orders/' + idx, { method: 'DELETE' });
+                  const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+                  const dRes = await fetch(\`\${baseUrl}/api/orders/\${idx}\`, { method: 'DELETE' });
                   if(dRes.ok) {
                     viewBtn.click();
                   } else {

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisan | Cancelled Orders</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --bg:            #0b0908;   
+  --bg-alt:        #14100d;   
+  --bg-alt-2:      #1c1512;   
+  --brown:         #3b2418;   
+  --brown-light:   #5c3a26;   
+  --brown-dim:     #2a1a12;
+  --gold:          #c9a227;   
+  --gold-light:    #e6c766;   
+  --gold-dim:      #7a6320;   
+  --cream:         #f0e6d2;   
+  --text-muted:    #ab9a89;   
+  --text-faint:    #71645a;   
+  --danger:        #b3543f;
+  --danger-light:  #e57373;
+  --danger-dim:    rgba(179, 84, 63, 0.1);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --max-width: 1200px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 22px;
+  --nav-height: 76px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.navbar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background: rgba(11,9,8,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,162,39,0.12);
+}
+.nav-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cream);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.page-header {
+  padding: 60px 0 40px;
+  text-align: center;
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--danger-light);
+  margin-bottom: 10px;
+}
+.page-header p {
+  color: var(--text-muted);
+}
+
+.table-container {
+  background: var(--bg-alt);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--danger);
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(179, 84, 63, 0.2);
+  margin-bottom: 80px;
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.orders-table th {
+  color: var(--danger-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--danger);
+}
+.orders-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(179, 84, 63, 0.2);
+  color: var(--cream);
+}
+.orders-table tr:hover td {
+  background: var(--danger-dim);
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--danger);
+  background: transparent;
+  color: var(--danger-light);
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.action-btn:hover {
+  background: var(--danger);
+  color: #fff;
+}
+.actions-flex { display: flex; gap: 8px; }
+
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Artisan <span>Coffee</span></a>
+    <div class="nav-links">
+      <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-header">
+    <h1>Cancelled Orders</h1>
+    <p>Abandoned carts: Customers who filled details but didn't complete payment.</p>
+  </div>
+
+  <div class="table-container">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Date & Time</th>
+          <th>Customer</th>
+          <th>Contact & Address</th>
+          <th>Order Details</th>
+          <th>Payment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="cancelled-orders-tbody">
+        <tr><td colspan="6" style="text-align:center;">Loading cancelled orders...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const tbody = document.getElementById('cancelled-orders-tbody');
+  try {
+    const res = await fetch('./backend/orders.json');
+    if (!res.ok) throw new Error("Failed to fetch");
+    const orders = await res.json();
+    
+    tbody.innerHTML = '';
+    
+    if(orders.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No abandoned orders found.</td></tr>';
+      return;
+    }
+    
+    // Sort by newest first
+    orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Displaying all orders in this demo page but styling as cancelled
+    orders.forEach(order => {
+      const tr = document.createElement('tr');
+      
+      const dateObj = new Date(order.date);
+      const dateStr = dateObj.toLocaleDateString() + '<br><small>' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</small>';
+      
+      tr.innerHTML = \`
+        <td>\${dateStr}</td>
+        <td>
+          <strong>\${order.name}</strong><br>
+          <small style="color:var(--text-faint)">\${order.email}</small>
+        </td>
+        <td>
+          \${order.mobile}<br>
+          <small style="color:var(--text-faint)">\${order.address} \${order.pincode ? '- ' + order.pincode : ''}</small>
+        </td>
+        <td>
+          \${order.coffee_order}<br>
+          <small style="color:var(--text-faint)">Qty: \${order.quantity}</small>
+        </td>
+        <td>
+          \${order.price}<br>
+          <small style="color:var(--text-faint)">\${order.payment_method} (Incomplete)</small>
+        </td>
+        <td>
+          <div class="actions-flex">
+            <a href="tel:\${order.mobile}" class="action-btn">Call</a>
+            <a href="sms:\${order.mobile}" class="action-btn">Msg</a>
+          </div>
+        </td>
+      \`;
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    console.error(error);
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--danger);">Error loading cancelled orders. Is backend accessible?</td></tr>';
+  }
+});
+</script>
+
+</body>
+</html>

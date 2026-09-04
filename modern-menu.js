@@ -536,7 +536,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast("Sending OTP...", "info");
 
     try {
-      const response = await fetch('http://localhost:3001/api/send-otp', {
+      const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+      const response = await fetch(`${baseUrl}/api/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, otp: generatedOtp })
@@ -567,7 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnOnline.addEventListener('click', () => {
-    showToast("Online Payment is coming soon! Please use Cash on Delivery.", "error");
+    // Redirect to the payment method page
+    window.location.href = 'payment.html';
   });
 
   // Flow Step 2 (Final - Verify OTP)
@@ -596,7 +598,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pincodeVal = inputPincode.value.trim();
     
     try {
-      const response = await fetch('http://localhost:3001/api/order', {
+      const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+      const response = await fetch(`${baseUrl}/api/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -717,7 +720,8 @@ document.addEventListener('DOMContentLoaded', () => {
       btnCheckStatus.disabled = true;
 
       try {
-        const response = await fetch(`http://localhost:3001/api/order-status?name=${encodeURIComponent(name)}&mobile=${encodeURIComponent(mobile)}`);
+        const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+        const response = await fetch(`${baseUrl}/api/order-status?name=${encodeURIComponent(name)}&mobile=${encodeURIComponent(mobile)}`);
         const data = await response.json();
 
         if (data.success && data.order) {

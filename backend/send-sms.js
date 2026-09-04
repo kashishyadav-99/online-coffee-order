@@ -11,14 +11,15 @@
  * 3. Get free account at: https://www.twilio.com/console
  */
 
+const path = require('path');
 require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const twilio = require('twilio');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const path = require('path');
 
 const app = express();
 app.use(cors());

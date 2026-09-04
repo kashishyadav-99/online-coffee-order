@@ -283,7 +283,8 @@ function initBuyNow() {
         placeOrderBtn.textContent = 'Processing...';
         placeOrderBtn.disabled = true;
         
-        const response = await fetch('http://localhost:3001/api/order', {
+        const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+        const response = await fetch(\`\${baseUrl}/api/order\`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -361,7 +362,8 @@ document.addEventListener('DOMContentLoaded', () => {
       tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading...</td></tr>';
       
       try {
-        const res = await fetch('http://localhost:3001/api/orders');
+        const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+        const res = await fetch(\`\${baseUrl}/api/orders\`);
         const data = await res.json();
         if (data.success) {
           if (data.orders.length === 0) {
@@ -391,7 +393,8 @@ document.addEventListener('DOMContentLoaded', () => {
               if (confirm('Are you sure you want to delete this order?')) {
                 const idx = e.target.dataset.index;
                 try {
-                  const dRes = await fetch('http://localhost:3001/api/orders/' + idx, { method: 'DELETE' });
+                  const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+                  const dRes = await fetch(\`\${baseUrl}/api/orders/\${idx}\`, { method: 'DELETE' });
                   if (dRes.ok) {
                     viewBtn.click(); // Reload the data
                   } else {

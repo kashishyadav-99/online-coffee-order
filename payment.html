@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisan | Complete Order Status</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --bg:            #0b0908;   
+  --bg-alt:        #14100d;   
+  --bg-alt-2:      #1c1512;   
+  --brown:         #3b2418;   
+  --brown-light:   #5c3a26;   
+  --brown-dim:     #2a1a12;
+  --gold:          #c9a227;   
+  --gold-light:    #e6c766;   
+  --gold-dim:      #7a6320;   
+  --cream:         #f0e6d2;   
+  --text-muted:    #ab9a89;   
+  --text-faint:    #71645a;   
+  --danger:        #b3543f;
+  --success:       #5cb85c;
+  --success-dim:   rgba(92, 184, 92, 0.1);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --max-width: 1200px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 22px;
+  --nav-height: 76px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.navbar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background: rgba(11,9,8,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,162,39,0.12);
+}
+.nav-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cream);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.page-header {
+  padding: 60px 0 40px;
+  text-align: center;
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+.page-header p {
+  color: var(--text-muted);
+}
+
+.search-box {
+  background: var(--bg-alt);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gold-dim);
+  max-width: 500px;
+  margin: 0 auto 60px;
+  text-align: center;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+}
+.search-box input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--brown-light);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+.search-box input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+.search-box button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1209;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-family: var(--font-body);
+}
+.search-box button:hover {
+  transform: translateY(-2px);
+}
+.search-error {
+  color: var(--danger);
+  margin-top: 14px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+/* Payment Specific Styles */
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+.payment-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--brown-light);
+  border-radius: var(--radius-md);
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.payment-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px -10px rgba(201, 162, 39, 0.2);
+}
+.payment-card.active {
+  border-color: var(--gold);
+  background: rgba(201,162,39,0.05);
+}
+.payment-icon {
+  font-size: 2.5rem;
+  color: var(--gold);
+}
+.payment-card h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--cream);
+}
+.payment-details {
+  display: none;
+  background: var(--bg-alt-2);
+  border: 1px solid rgba(201,162,39,0.15);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  margin-top: 40px;
+  text-align: center;
+  animation: slideDown 0.4s var(--ease) forwards;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.qr-container {
+  max-width: 300px;
+  margin: 0 auto 20px;
+  border: 4px solid var(--gold-dim);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: white;
+  padding: 10px;
+}
+.qr-container img {
+  width: 100%;
+  display: block;
+}
+.qr-instruction {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+.card-form {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+}
+.card-form .form-group {
+  margin-bottom: 20px;
+}
+.card-form .row {
+  display: flex;
+  gap: 15px;
+}
+.card-form .row .form-group {
+  flex: 1;
+}
+.card-form label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.card-form input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--brown-light);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  font-size: 1rem;
+}
+.card-form input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Artisan <span>Coffee</span></a>
+    <div class="nav-links">
+      <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-header">
+    <h1>Payment Methods</h1>
+    <p>Select your preferred payment method below to complete your order securely.</p>
+  </div>
+
+  <div class="payment-grid" id="payment-options">
+    <div class="payment-card" data-method="gpay">
+      <div class="payment-icon" style="display: flex; align-items: center; justify-content: center; height: 50px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Pay_Logo_%282020%29.svg" alt="GPay Logo" style="height: 40px; object-fit: contain;">
+      </div>
+      <h3>Google Pay</h3>
+    </div>
+    <div class="payment-card" data-method="phonepe">
+      <div class="payment-icon">📱</div>
+      <h3>PhonePe</h3>
+    </div>
+    <div class="payment-card" data-method="paytm">
+      <div class="payment-icon">👜</div>
+      <h3>Paytm</h3>
+    </div>
+    <div class="payment-card" data-method="card">
+      <div class="payment-icon">🏧</div>
+      <h3>Debit/Credit Card</h3>
+    </div>
+  </div>
+
+  <!-- QR Code View -->
+  <div class="payment-details" id="upi-details">
+    <div class="qr-container">
+      <img src="qr-code.png" alt="UPI Scanner Code">
+    </div>
+    <p class="qr-instruction">Scan this QR code using <strong id="upi-app-name" style="color: var(--gold-light);">any UPI app</strong> to pay securely.</p>
+    <button class="btn btn-primary" onclick="alert('Payment processing simulated!')">I have completed the payment</button>
+  </div>
+
+  <!-- Card Form View -->
+  <div class="payment-details" id="card-details">
+    <form class="card-form" onsubmit="event.preventDefault(); alert('Card payment simulated!');">
+      <div class="form-group">
+        <label>Name on Card</label>
+        <input type="text" placeholder="Kashish Yadav" required>
+      </div>
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="XXXX XXXX XXXX XXXX" required>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="text" placeholder="MM/YY" required>
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="password" placeholder="123" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: 15px;">Pay Now</button>
+    </form>
+  </div>
+</main>
+
+<script>
+  const cards = document.querySelectorAll('.payment-card');
+  const upiDetails = document.getElementById('upi-details');
+  const cardDetails = document.getElementById('card-details');
+  const upiAppName = document.getElementById('upi-app-name');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      // Remove active class from all
+      cards.forEach(c => c.classList.remove('active'));
+      // Add active to clicked
+      card.classList.add('active');
+
+      const method = card.getAttribute('data-method');
+      
+      // Hide both panels first
+      upiDetails.style.display = 'none';
+      cardDetails.style.display = 'none';
+
+      if (method === 'card') {
+        cardDetails.style.display = 'block';
+      } else {
+        // UPI Methods
+        upiDetails.style.display = 'block';
+        if (method === 'gpay') upiAppName.textContent = 'Google Pay';
+        else if (method === 'phonepe') upiAppName.textContent = 'PhonePe';
+        else if (method === 'paytm') upiAppName.textContent = 'Paytm';
+      }
+    });
+  });
+
+  // Select GPay by default so the QR code is visible immediately
+  if (cards.length > 0) {
+    cards[0].click();
+  }
+</script>
+
+</body>
+</html>
+

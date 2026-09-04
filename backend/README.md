@@ -107,7 +107,7 @@ When ready for production:
 
 **SMS not received?**
 - Check Twilio Account SID and Auth Token are correct
-- Verify phone number format: +91XXXXXXXXXX (India) or +1XXXXXXXXXX (US)
+- Verify phone number format: +918291818710 (India) or +1XXXXXXXXXX (US)
 - Check Twilio console for error messages
 - Ensure phone number is verified during trial
 

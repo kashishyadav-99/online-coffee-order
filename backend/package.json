@@ -1,0 +1,28 @@
+{
+  "name": "artisan-sms-backend",
+  "version": "1.0.0",
+  "description": "SMS notification backend for Artisan Coffee contact form",
+  "main": "send-sms.js",
+  "scripts": {
+    "start": "node send-sms.js",
+    "dev": "nodemon send-sms.js"
+  },
+  "keywords": [
+    "sms",
+    "twilio",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemailer": "^9.0.3",
+    "twilio": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

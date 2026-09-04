@@ -19,6 +19,11 @@ const SITE_CONFIG = {
   emailJsTemplateId: 'YOUR_TEMPLATE_ID',
 };
 
+// Global API Base URL (auto-detects local vs production hosted environment)
+window.API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? (window.location.port === '3001' ? '' : 'http://localhost:3001')
+  : '';
+
 document.addEventListener('DOMContentLoaded', () => {
   fillPhoneNumbers();
   injectFloatingButtons();

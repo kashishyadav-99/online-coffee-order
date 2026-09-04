@@ -1643,22 +1643,7 @@
       <div class="nav-cta">
         <a href="modern-menu.html" class="btn btn-primary btn-small">Order Online</a>
         
-        <div class="dropdown-container" style="position: relative;">
-          <button id="three-dot-menu-btn" class="three-dot-btn">⋮</button>
-          <div id="three-dot-dropdown" class="three-dot-dropdown hidden">
-            <a href="index.html">Home </a>
-            <a href="modern-menu.html">Menu </a>
-            <a href="contact (1).html">Contact</a>
-            <a href="#" id="dropdown-order-details">Order Details</a>
-            <a href="#" id="dropdown-cancel-order">Cancel Order</a>
-            <a href="#" id="dropdown-complete-order">Complete Order</a>
-            <a href="modern-menu.html" id="dropdown-cart">Cart</a>
-            <a href="#" id="dropdown-payment">Payment</a>
-            <a href="#" id="dropdown-setting">Setting</a>
-            <a href="#" id="dropdown-help-center">Help center</a>
-            <a href="#" id="dropdown-logout">Logout</a>
-          </div>
-        </div>
+
 
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
           <span></span><span></span><span></span>
@@ -2119,7 +2104,8 @@
 
     /* Send the form data to the backend API */
     function sendContactEmail(data) {
-      return fetch('http://localhost:3001/send-email', {
+      const baseUrl = window.API_BASE_URL || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? (window.location.port === '3001' ? '' : 'http://localhost:3001') : '');
+      return fetch(`${baseUrl}/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

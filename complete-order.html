@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisan | Complete Order Status</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --bg:            #0b0908;   
+  --bg-alt:        #14100d;   
+  --bg-alt-2:      #1c1512;   
+  --brown:         #3b2418;   
+  --brown-light:   #5c3a26;   
+  --brown-dim:     #2a1a12;
+  --gold:          #c9a227;   
+  --gold-light:    #e6c766;   
+  --gold-dim:      #7a6320;   
+  --cream:         #f0e6d2;   
+  --text-muted:    #ab9a89;   
+  --text-faint:    #71645a;   
+  --danger:        #b3543f;
+  --success:       #5cb85c;
+  --success-dim:   rgba(92, 184, 92, 0.1);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --max-width: 1200px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 22px;
+  --nav-height: 76px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.navbar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background: rgba(11,9,8,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,162,39,0.12);
+}
+.nav-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cream);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.page-header {
+  padding: 60px 0 40px;
+  text-align: center;
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+.page-header p {
+  color: var(--text-muted);
+}
+
+.search-box {
+  background: var(--bg-alt);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gold-dim);
+  max-width: 500px;
+  margin: 0 auto 60px;
+  text-align: center;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+}
+.search-box input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--brown-light);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+.search-box input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+.search-box button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1209;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-family: var(--font-body);
+}
+.search-box button:hover {
+  transform: translateY(-2px);
+}
+.search-error {
+  color: var(--danger);
+  margin-top: 14px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.result-container {
+  display: none;
+  background: var(--bg-alt);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--success);
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(92, 184, 92, 0.15);
+  margin-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.completion-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.completion-header .logo-large {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+.completion-header h2 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--success);
+  margin-bottom: 10px;
+}
+.completion-header p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  text-align: left;
+}
+.orders-table th {
+  color: var(--success);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 14px 10px;
+  border-bottom: 1px solid var(--success);
+}
+.orders-table td {
+  padding: 16px 10px;
+  border-bottom: 1px solid rgba(92, 184, 92, 0.2);
+  color: var(--cream);
+  vertical-align: top;
+}
+
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Artisan <span>Coffee</span></a>
+    <div class="nav-links">
+      <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-header" id="header-text">
+    <h1>Complete Order Details</h1>
+    <p>Enter your details below to view your completed order.</p>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-box" id="search-box">
+    <form id="order-search-form">
+      <input type="text" id="search-name" placeholder="Enter your Name" required>
+      <input type="tel" id="search-mobile" placeholder="Enter your Mobile Number" required>
+      <button type="submit">View Complete Order</button>
+      <div class="search-error" id="search-error">Order not found. Please check your details.</div>
+    </form>
+  </div>
+
+  <!-- Result Dashboard -->
+  <div class="result-container" id="result-container">
+    <div class="completion-header">
+      <div class="logo-large">☕</div>
+      <h2>Order is Done!</h2>
+      <p>Thank you for choosing Artisan Coffee. Here are your complete order details.</p>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Customer</th>
+            <th>Contact & Address</th>
+            <th>Order Details</th>
+            <th>Payment</th>
+          </tr>
+        </thead>
+        <tbody id="order-tbody">
+          <!-- Filled via JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+document.getElementById('order-search-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name = document.getElementById('search-name').value.trim();
+  const mobile = document.getElementById('search-mobile').value.trim();
+  const errorEl = document.getElementById('search-error');
+  
+  errorEl.style.display = 'none';
+  const btn = this.querySelector('button');
+  const originalText = btn.textContent;
+  btn.textContent = 'Searching...';
+
+  try {
+    // Fetch the orders.json file directly (works with Live Server)
+    const res = await fetch('backend/orders.json');
+    if (!res.ok) throw new Error('Failed to load orders data');
+    const data = await res.json();
+
+    // Find the matching order (case-insensitive)
+    const order = data.reverse().find(o => 
+      o.name.toLowerCase() === name.toLowerCase() && 
+      o.mobile === mobile
+    );
+
+    if(order) {
+      // Hide search, show result
+      document.getElementById('search-box').style.display = 'none';
+      document.getElementById('header-text').style.display = 'none';
+      document.getElementById('result-container').style.display = 'block';
+
+      const dateObj = new Date(order.date);
+      const dateStr = dateObj.toLocaleDateString() + '<br><small style="color:var(--text-faint)">' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</small>';
+
+      document.getElementById('order-tbody').innerHTML = `
+        <tr>
+          <td>${dateStr}</td>
+          <td>
+            <strong>${order.name}</strong><br>
+            <small style="color:var(--text-faint)">${order.email}</small>
+          </td>
+          <td>
+            ${order.mobile}<br>
+            <small style="color:var(--text-faint)">${order.address} ${order.pincode ? '- ' + order.pincode : ''}</small>
+          </td>
+          <td>
+            ${order.coffee_order}<br>
+            <small style="color:var(--text-faint)">Qty: ${order.quantity}</small>
+          </td>
+          <td>
+            <strong style="color:var(--gold-light)">${order.price}</strong><br>
+            <small style="color:var(--text-faint)">${order.payment_method}</small>
+          </td>
+        </tr>
+      `;
+    } else {
+      errorEl.textContent = data.error || 'Order not found. Please check your details.';
+      errorEl.style.display = 'block';
+    }
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = 'Error: ' + err.message;
+    errorEl.style.display = 'block';
+  } finally {
+    btn.textContent = originalText;
+  }
+});
+</script>
+
+</body>
+</html>
