@@ -21,13 +21,29 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 
+const { execSync } = require('child_process');
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
 const distPath = path.join(__dirname, '../dist');
+
+// Auto-build Vite frontend if dist folder doesn't exist
+if (!fs.existsSync(distPath) || !fs.existsSync(path.join(distPath, 'index.html'))) {
+  console.log('⚡ dist folder not found. Building Vite production assets...');
+  try {
+    execSync('npx vite build', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
+    console.log('✅ Vite build completed successfully!');
+  } catch (err) {
+    console.error('❌ Failed to build Vite frontend:', err.message);
+  }
+}
+
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
 } else {
+  console.warn('⚠️ Serving root static files as fallback.');
   app.use(express.static(path.join(__dirname, '../')));
 }
 
@@ -449,6 +465,19 @@ app.post('/api/send-otp', async (req, res) => {
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'SMS backend is running' });
+});
+
+// Catch-all route for SPA client-side navigation
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/send-')) {
+    return next();
+  }
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Frontend build index.html not found');
+  }
 });
 
 // Start server
